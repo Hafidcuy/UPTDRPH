@@ -1,189 +1,68 @@
 html { scroll-behavior: smooth; }
-    body { font-family: Arial, sans-serif; margin:0; }
 
-    header { 
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
-    }
+body {
+  font-family: Arial, sans-serif;
+  margin:0;
+}
 
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 30px;
-      background:#2e7d32;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
+/* HEADER */
+header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
 
-    .logo {
-      color: white;
-      margin: 0;
-    }
+/* NAVBAR */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background:#2e7d32;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
 
-    .menu {
-      display: flex;
-    }
-
-    .menu a {
-      color: white;
-      margin-left: 20px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .menu a:hover {
-      opacity: 0.7;
-    }
-
-    /* HAMBURGER */
-    .hamburger {
-      display: none;
-      font-size: 25px;
-      color: white;
-      cursor: pointer;
-    }
-
-    section { padding:80px 20px; }
-
-    .container {
-      max-width: 1000px;
-      margin: auto;
-    }
-
-    .hero {
-      background: url('galeri\\1 (27).jpeg') no-repeat center;
-      background-size: cover;
-      height: 400px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top:60px;
-    }
-
-    .overlay {
-      background: rgba(0, 0, 0, 0.5);
-      padding: 30px;
-      border-radius: 10px;
-      color: white;
-      text-align: center;
-    }
-
-    .card {
-      background:#f5f5f5;
-      padding:20px;
-      margin:10px 0;
-      border-radius:10px;
-      transition: 0.3s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-    }
-
-    .gallery img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .gallery img:hover {
-      transform: scale(1.05);
-    }
-
-    footer {
-      background:#2e7d32;
-      color:white;
-      text-align:center;
-      padding:10px;
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-
-      .hamburger {
-        display: block;
-      }
-
-      .menu {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        margin-top: 10px;
-      }
-
-      .menu.active {
-        display: flex;
-      }
-
-      .menu a {
-        margin: 10px 0;
-      }
-
-      nav {
-        flex-wrap: wrap;
-      }
-
-      .hero {
-        height: 300px;
-      }
-    }
-
-    @media (max-width: 480px) {
-
-      .hero {
-        height: 250px;
-      }
-
-      .overlay h2 {
-        font-size: 18px;
-      }
-
-      .overlay p {
-        font-size: 14px;
-      }
-
-      .gallery img {
-        height: 150px;
-      }
-
-      section {
-        padding: 60px 15px;
-      }
-    }
-
-    body.dark-mode {
-  background: #121212;
+.logo {
   color: white;
+  margin: 0;
 }
 
-body.dark-mode nav {
-  background: #1b5e20;
+/* ACTION */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-body.dark-mode .card {
-  background: #1e1e1e;
+/* MENU DESKTOP */
+.menu {
+  display: flex;
+  justify-content: center;
+  background:#2e7d32;
+  padding-bottom: 10px;
+}
+
+.menu a {
   color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: bold;
 }
 
-body.dark-mode footer {
-  background: #1b5e20;
+.menu a:hover {
+  opacity: 0.7;
 }
 
-body.dark-mode .overlay {
-  background: rgba(0,0,0,0.7);
+/* HAMBURGER */
+.hamburger {
+  display: none;
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
 }
 
+/* DARK BUTTON */
 .dark-btn {
   background: white;
   border: none;
@@ -192,23 +71,152 @@ body.dark-mode .overlay {
   border-radius: 10px;
   cursor: pointer;
   font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 20px;
   transition: 0.3s;
-}
-
-nav {
-  gap: 15px;
-}
-
-.menu {
-  display: flex;
-  align-items: center;
 }
 
 .dark-btn:hover {
   transform: scale(1.1);
+}
+
+/* SECTION */
+section {
+  padding:80px 20px;
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+}
+
+/* HERO */
+.hero {
+  background: url('galeri/1 (27).jpeg') no-repeat center;
+  background-size: cover;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top:100px;
+}
+
+.overlay {
+  background: rgba(0,0,0,0.5);
+  padding: 30px;
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+}
+
+/* CARD */
+.card {
+  background:#f5f5f5;
+  padding:20px;
+  margin:10px 0;
+  border-radius:10px;
   transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* GALLERY */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 15px;
+}
+
+.gallery img {
+  width:100%;
+  height:200px;
+  object-fit: cover;
+  border-radius:10px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.gallery img:hover {
+  transform: scale(1.05);
+}
+
+/* FOOTER */
+footer {
+  background:#2e7d32;
+  color:white;
+  text-align:center;
+  padding:10px;
+}
+
+/* DARK MODE */
+body.dark-mode {
+  background:#121212;
+  color:white;
+}
+
+body.dark-mode nav,
+body.dark-mode .menu,
+body.dark-mode footer {
+  background:#1b5e20;
+}
+
+body.dark-mode .card {
+  background:#1e1e1e;
+  color:white;
+}
+
+body.dark-mode .overlay {
+  background: rgba(0,0,0,0.7);
+}
+
+/* RESPONSIVE */
+@media (max-width:768px){
+
+  .hamburger {
+    display:block;
+  }
+
+  .menu {
+    display:none;
+    flex-direction: column;
+    text-align:center;
+    width:100%;
+    background:#2e7d32;
+    padding:10px 0;
+  }
+
+  .menu.active {
+    display:flex;
+  }
+
+  .menu a {
+    margin:15px 0;
+  }
+
+  .hero {
+    height:300px;
+  }
+}
+
+@media (max-width:480px){
+
+  .hero {
+    height:250px;
+  }
+
+  .overlay h2 {
+    font-size:18px;
+  }
+
+  .overlay p {
+    font-size:14px;
+  }
+
+  .gallery img {
+    height:150px;
+  }
+
+  section {
+    padding:60px 15px;
+  }
 }
