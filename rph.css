@@ -1,11 +1,14 @@
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   font-family: Arial, sans-serif;
-  margin:0;
+  margin: 0;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
+
 header {
   position: fixed;
   width: 100%;
@@ -13,13 +16,12 @@ header {
   z-index: 1000;
 }
 
-/* NAVBAR */
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 30px;
-  background:#2e7d32;
+  background: #2e7d32;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
@@ -28,41 +30,41 @@ nav {
   margin: 0;
 }
 
-/* ACTION */
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+/* ================= MENU DESKTOP ================= */
 
-/* MENU DESKTOP */
 .menu {
   display: flex;
   justify-content: center;
-  background:#2e7d32;
-  padding-bottom: 10px;
+  align-items: center;
+  gap: 25px;
+
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 25px;
 }
 
 .menu a {
   color: white;
   text-decoration: none;
-  margin: 0 15px;
   font-weight: bold;
+  transition: 0.3s;
 }
 
 .menu a:hover {
   opacity: 0.7;
 }
 
-/* HAMBURGER */
-.hamburger {
-  display: none;
-  font-size: 28px;
-  color: white;
-  cursor: pointer;
+/* ================= NAV ACTIONS ================= */
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-/* DARK BUTTON */
+/* ================= DARK MODE BUTTON ================= */
+
 .dark-btn {
   background: white;
   border: none;
@@ -78,9 +80,19 @@ nav {
   transform: scale(1.1);
 }
 
-/* SECTION */
+/* ================= HAMBURGER ================= */
+
+.hamburger {
+  display: none;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+}
+
+/* ================= SECTION ================= */
+
 section {
-  padding:80px 20px;
+  padding: 80px 20px;
 }
 
 .container {
@@ -88,15 +100,18 @@ section {
   margin: auto;
 }
 
-/* HERO */
+/* ================= HERO ================= */
+
 .hero {
   background: url('galeri/1 (27).jpeg') no-repeat center;
   background-size: cover;
   height: 400px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top:100px;
+
+  margin-top: 90px;
 }
 
 .overlay {
@@ -107,12 +122,13 @@ section {
   text-align: center;
 }
 
-/* CARD */
+/* ================= CARD ================= */
+
 .card {
-  background:#f5f5f5;
-  padding:20px;
-  margin:10px 0;
-  border-radius:10px;
+  background: #f5f5f5;
+  padding: 20px;
+  margin: 10px 0;
+  border-radius: 10px;
   transition: 0.3s;
 }
 
@@ -120,7 +136,8 @@ section {
   transform: translateY(-5px);
 }
 
-/* GALLERY */
+/* ================= GALLERY ================= */
+
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
@@ -128,95 +145,128 @@ section {
 }
 
 .gallery img {
-  width:100%;
-  height:200px;
+  width: 100%;
+  height: 200px;
   object-fit: cover;
-  border-radius:10px;
-  cursor:pointer;
-  transition:0.3s;
+
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .gallery img:hover {
   transform: scale(1.05);
 }
 
-/* FOOTER */
+/* ================= FOOTER ================= */
+
 footer {
-  background:#2e7d32;
-  color:white;
-  text-align:center;
-  padding:10px;
+  background: #2e7d32;
+  color: white;
+  text-align: center;
+  padding: 10px;
 }
 
-/* DARK MODE */
+/* ================= DARK MODE ================= */
+
 body.dark-mode {
-  background:#121212;
-  color:white;
+  background: #121212;
+  color: white;
 }
 
 body.dark-mode nav,
 body.dark-mode .menu,
 body.dark-mode footer {
-  background:#1b5e20;
+  background: #1b5e20;
 }
 
 body.dark-mode .card {
-  background:#1e1e1e;
-  color:white;
+  background: #1e1e1e;
+  color: white;
 }
 
 body.dark-mode .overlay {
   background: rgba(0,0,0,0.7);
 }
 
-/* RESPONSIVE */
-@media (max-width:768px){
+/* ================= RESPONSIVE TABLET & HP ================= */
+
+@media (max-width: 768px) {
+
+  nav {
+    padding: 15px 20px;
+  }
 
   .hamburger {
-    display:block;
+    display: block;
   }
 
   .menu {
-    display:none;
+    display: none;
     flex-direction: column;
-    text-align:center;
-    width:100%;
-    background:#2e7d32;
-    padding:10px 0;
+    text-align: center;
+
+    position: static;
+    transform: none;
+
+    width: 100%;
+    background: #2e7d32;
+    padding: 10px 0;
+    gap: 0;
   }
 
   .menu.active {
-    display:flex;
+    display: flex;
   }
 
   .menu a {
-    margin:15px 0;
+    margin: 15px 0;
   }
 
   .hero {
-    height:300px;
+    height: 300px;
   }
-}
 
-@media (max-width:480px){
-
-  .hero {
-    height:250px;
+  .overlay {
+    padding: 20px;
   }
 
   .overlay h2 {
-    font-size:18px;
+    font-size: 24px;
+  }
+}
+
+/* ================= RESPONSIVE HP ================= */
+
+@media (max-width: 480px) {
+
+  .logo {
+    font-size: 20px;
+  }
+
+  .hero {
+    height: 250px;
+  }
+
+  .overlay h2 {
+    font-size: 18px;
   }
 
   .overlay p {
-    font-size:14px;
+    font-size: 14px;
   }
 
   .gallery img {
-    height:150px;
+    height: 150px;
   }
 
   section {
-    padding:60px 15px;
+    padding: 60px 15px;
+  }
+
+  .dark-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 16px;
   }
 }
