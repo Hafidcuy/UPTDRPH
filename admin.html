@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin Panel — RPH Krian</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- ====================== SPRITE IKON (SVG) ======================= -->
+  <svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.5 1.5M17.6 17.6l1.5 1.5M2 12h2M20 12h2M6.4 17.6l-1.5 1.5M19.1 4.9l-1.5 1.5"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10.5" width="16" height="10.5" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8.4 12.2 2.5 2.5 4.7-5.4"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 21.5s7.5-3.7 7.5-9.6V5.3L12 2.4 4.5 5.3v6.6c0 5.9 7.5 9.6 7.5 9.6Z"/><path d="m8.9 12 2.3 2.3 4-4.4"/></symbol>
+    <symbol id="i-cow" viewBox="0 0 24 24"><path d="M4 7c0-1.5 1-2.5 2.5-2.5C7 3 7.5 3 8 3.5c1 .3 2 .5 4 .5s3-.2 4-.5c.5-.5 1-.5 1.5-.5C19 4.5 20 5.5 20 7c0 1-.5 1.5-1 2v4c0 3-2 6-7 6s-7-3-7-6V9c-.5-.5-1-1-1-2Z"/><circle cx="9.5" cy="11" r="1"/><circle cx="14.5" cy="11" r="1"/><path d="M9 16h6"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10.2c0 5.8-8 11.8-8 11.8s-8-6-8-11.8a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6.8V12l3.4 2"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M21.5 16.9v2.8a2 2 0 0 1-2.2 2 19.6 19.6 0 0 1-8.5-3 19.3 19.3 0 0 1-6-6 19.6 19.6 0 0 1-3-8.6 2 2 0 0 1 2-2.2h2.8a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.2 9.9a16 16 0 0 0 6 6l1.4-1.4a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.8"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="8.6" cy="9.4" r="1.6"/><path d="m4 17.5 4.8-4.6a2 2 0 0 1 2.7 0L20 20"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9.5 6 6 6-6"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m14.5 18-6-6 6-6"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6"/></symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19.5V5M5.5 11.5 12 5l6.5 6.5"/></symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19.5 12h-15M11.5 18.5 5 12l6.5-6.5"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><path d="M2.8 6.5h11.2v10H2.8zM14 10h3.7l3 3.2v3.3H14z"/><circle cx="7" cy="18.4" r="1.9"/><circle cx="17.2" cy="18.4" r="1.9"/></symbol>
+    <symbol id="i-cut" viewBox="0 0 24 24"><circle cx="6" cy="6.2" r="2.7"/><circle cx="6" cy="17.8" r="2.7"/><path d="M8.3 8.3 12 12M20 4 8.3 15.7M14.4 14.4 20 20"/></symbol>
+    <symbol id="i-basket" viewBox="0 0 24 24"><path d="M4 10.5h16l-1.4 8.4a2 2 0 0 1-2 1.6H7.4a2 2 0 0 1-2-1.6Z"/><path d="m8.5 10.5 2.2-6.5M15.5 10.5l-2.2-6.5M10 14.2v2.6M14 14.2v2.6"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="m3.5 7.5 8.5 5.6 8.5-5.6"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3.5 3.5v17h17"/><path d="M17.5 16.5v-5M12.5 16.5v-8M7.5 16.5v-4"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12.5 20.5H21"/><path d="M16.6 3.9a2.1 2.1 0 0 1 3 3L7.6 18.9l-4 1 1-4Z"/></symbol>
+    <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M21.5 12.5h-5.2l-1.7 2.8H9.4l-1.7-2.8H2.5"/><path d="M5.6 5.1 2.5 12v5.5a2 2 0 0 0 2 2h15a2 2 0 0 0 2-2V12l-3.1-6.9a2 2 0 0 0-1.8-1.1H7.4a2 2 0 0 0-1.8 1.1Z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14.5 14.5 0 0 1 3.6 9A14.5 14.5 0 0 1 12 21a14.5 14.5 0 0 1-3.6-9A14.5 14.5 0 0 1 12 3Z"/></symbol>
+    <symbol id="i-rocket" viewBox="0 0 24 24"><path d="M12 15.2 8.6 11.8a22 22 0 0 1 1.8-3.7A12.8 12.8 0 0 1 20 4c0 2.8-.7 7.4-5.6 10.6a22 22 0 0 1-3.9 1.9Z"/><path d="M8.7 11.8H4.3s.5-2.8 1.9-3.8c1.6-1.1 4.5-.3 4.5-.3M12 15.2v4.3s2.8-.5 3.8-1.9c1.1-1.6.3-4.5.3-4.5"/></symbol>
+    <symbol id="i-save" viewBox="0 0 24 24"><path d="M19.5 21h-15A1.5 1.5 0 0 1 3 19.5v-15A1.5 1.5 0 0 1 4.5 3h12L21 7.5v12a1.5 1.5 0 0 1-1.5 1.5Z"/><path d="M16.5 21v-7.5h-9V21M7.5 3v4.5h7"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M20.5 15.5v3.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2v-3.5"/><path d="m16.5 8-4.5-4.5L7.5 8M12 3.7V15"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20.5 12a8.5 8.5 0 1 1-2.5-6"/><path d="M20.5 4v5h-5"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 20.5v-1.7a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v1.7"/><circle cx="12" cy="7.5" r="4"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.2 12S5.7 5.5 12 5.5 21.8 12 21.8 12 18.3 18.5 12 18.5 2.2 12 2.2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3.5 6.5h17"/><path d="M18.5 6.5v13a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2v-13m3.5 0V4.6A1.6 1.6 0 0 1 10.6 3h2.8A1.6 1.6 0 0 1 15 4.6v1.9"/><path d="M10 11v6.5M14 11v6.5"/></symbol>
+    <symbol id="i-undo" viewBox="0 0 24 24"><path d="m9 14.5-5-5 5-5"/><path d="M4 9.5h10.5a5.5 5.5 0 0 1 0 11H11"/></symbol>
+  </svg>
+
+  <!-- ============================ LOGIN ============================ -->
+  <div class="auth-wrap" id="authView">
+    <div class="auth-card">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">R</span>
+        <span class="brand-text"><strong>RPH Krian</strong><small>Admin Panel</small></span>
+      </a>
+      <h1>Masuk ke Dashboard</h1>
+      <p class="muted" id="authMode">—</p>
+
+      <form id="loginForm">
+        <div class="field">
+          <label for="loginEmail">Email</label>
+          <input id="loginEmail" type="email" placeholder="admin@rphkrian.id" required autocomplete="username">
+        </div>
+        <div class="field">
+          <label for="loginPass">Kata Sandi</label>
+          <input id="loginPass" type="password" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button class="btn btn-primary btn-block" id="loginBtn" type="submit">Masuk</button>
+        <button class="link-btn" id="forgotBtn" type="button">Lupa kata sandi?</button>
+      </form>
+
+      <div class="demo-hint" id="demoHint" hidden>
+        <strong>Mode Demo</strong>
+        <p>Email: <code id="demoEmail"></code> · Sandi: <code id="demoPass"></code></p>
+      </div>
+
+      <a class="back-link" href="index.html"><svg class="ic"><use href="#i-arrow-left"></use></svg>Kembali ke website</a>
+    </div>
+  </div>
+
+  <!-- ========================== DASHBOARD ========================== -->
+  <div class="app" id="appView" hidden>
+    <aside class="sidebar" id="sidebar">
+      <a href="index.html" class="brand sidebar-brand">
+        <span class="brand-mark">R</span>
+        <span class="brand-text"><strong>RPH Krian</strong><small>Admin Panel</small></span>
+      </a>
+
+      <nav class="side-nav">
+        <button class="side-link active" data-view="overview"><svg class="ic"><use href="#i-chart"></use></svg><span>Ringkasan</span></button>
+        <button class="side-link" data-view="content"><svg class="ic"><use href="#i-edit"></use></svg><span>Konten Situs</span></button>
+        <button class="side-link" data-view="services"><svg class="ic"><use href="#i-grid"></use></svg><span>Layanan</span></button>
+        <button class="side-link" data-view="gallery"><svg class="ic"><use href="#i-image"></use></svg><span>Galeri</span></button>
+        <button class="side-link" data-view="messages"><svg class="ic"><use href="#i-inbox"></use></svg><span>Pesan <em class="badge" id="msgBadge" hidden>0</em></span></button>
+        <button class="side-link" data-view="security"><svg class="ic"><use href="#i-lock"></use></svg><span>Keamanan</span></button>
+      </nav>
+
+      <div class="side-foot">
+        <span class="mode-pill" id="modePill">—</span>
+        <button class="btn btn-outline btn-sm" id="logoutBtn">Keluar</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu"><svg class="ic"><use href="#i-menu"></use></svg></button>
+        <h1 id="viewTitle">Ringkasan</h1>
+        <div class="topbar-right">
+          <a class="btn btn-outline btn-sm" href="index.html" target="_blank"><svg class="ic"><use href="#i-globe"></use></svg>Lihat Situs</a>
+        </div>
+      </header>
+
+      <div class="content">
+
+        <!-- ---------------- RINGKASAN ---------------- -->
+        <section class="view" id="view-overview">
+          <div class="stats">
+            <div class="stat"><span class="stat-ico"><svg class="ic"><use href="#i-image"></use></svg></span><div><strong id="statGallery">0</strong><small>Foto Galeri</small></div></div>
+            <div class="stat"><span class="stat-ico"><svg class="ic"><use href="#i-grid"></use></svg></span><div><strong id="statServices">0</strong><small>Layanan</small></div></div>
+            <div class="stat"><span class="stat-ico"><svg class="ic"><use href="#i-inbox"></use></svg></span><div><strong id="statMessages">0</strong><small>Total Pesan</small></div></div>
+            <div class="stat"><span class="stat-ico"><svg class="ic"><use href="#i-mail"></use></svg></span><div><strong id="statUnread">0</strong><small>Belum Dibaca</small></div></div>
+          </div>
+
+          <div class="panel" id="setupPanel">
+            <div class="panel-head"><h2><svg class="ic"><use href="#i-rocket"></use></svg>Langkah Menghubungkan Supabase</h2></div>
+            <ol class="steps">
+              <li>Buat project gratis di <a href="https://supabase.com" target="_blank" rel="noopener">supabase.com</a>.</li>
+              <li>Buka <em>Project Settings → API</em>, salin <strong>Project URL</strong> dan <strong>anon key</strong>, lalu tempel di file <code>supabase-config.js</code>.</li>
+              <li>Buka <em>SQL Editor</em> di Supabase, jalankan seluruh isi file <code>supabase-schema.sql</code>.</li>
+              <li>Buka <em>Authentication → Users → Add user</em> untuk membuat akun admin (email &amp; sandi).</li>
+              <li>Muat ulang halaman ini, lalu login memakai akun tersebut.</li>
+            </ol>
+            <p class="note">Selama konfigurasi masih kosong, website berjalan dalam <strong>Mode Demo</strong>: data disimpan di browser ini saja (localStorage) dan belum tersinkronisasi ke pengunjung lain.</p>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><h2>Pesan Terbaru</h2></div>
+            <div id="recentMessages" class="msg-list"></div>
+          </div>
+        </section>
+
+        <!-- ---------------- KONTEN ---------------- -->
+        <section class="view" id="view-content" hidden>
+          <form class="panel" id="settingsForm">
+            <div class="panel-head"><h2>Hero / Beranda</h2></div>
+            <div class="field">
+              <label>Judul Hero</label>
+              <input id="s_hero_title" type="text" placeholder="Selamat Datang di RPH Krian">
+            </div>
+            <div class="field">
+              <label>Subjudul Hero</label>
+              <textarea id="s_hero_subtitle" rows="3"></textarea>
+            </div>
+            <div class="field">
+              <label>Path Gambar Hero</label>
+              <input id="s_hero_image" type="text" placeholder="galeri/1 (27).jpeg">
+            </div>
+
+            <div class="panel-head"><h2>Tentang Kami</h2></div>
+            <div class="field"><label>Judul</label><input id="s_about_title" type="text"></div>
+            <div class="field"><label>Isi Deskripsi</label><textarea id="s_about_text" rows="6"></textarea></div>
+
+            <div class="panel-head"><h2>Kontak &amp; Jam Operasional</h2></div>
+            <div class="field"><label>Alamat</label><textarea id="s_contact_address" rows="2"></textarea></div>
+            <div class="field-row">
+              <div class="field"><label>Telepon</label><input id="s_contact_phone" type="text"></div>
+              <div class="field"><label>Email</label><input id="s_contact_email" type="email"></div>
+            </div>
+            <div class="field"><label>Jam Operasional</label><input id="s_operating_hours" type="text"></div>
+
+            <div class="form-actions">
+              <button class="btn btn-primary" type="submit"><svg class="ic"><use href="#i-save"></use></svg>Simpan Perubahan</button>
+              <button class="btn btn-outline" type="button" id="resetSettings">Kembalikan ke Default</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- ---------------- LAYANAN ---------------- -->
+        <section class="view" id="view-services" hidden>
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Daftar Layanan</h2>
+              <button class="btn btn-primary btn-sm" id="addService">+ Tambah Layanan</button>
+            </div>
+            <div id="serviceList" class="list"></div>
+          </div>
+        </section>
+
+        <!-- ---------------- GALERI ---------------- -->
+        <section class="view" id="view-gallery" hidden>
+          <div class="panel">
+            <div class="panel-head"><h2>Upload Foto</h2></div>
+            <label class="dropzone" id="dropzone">
+              <input type="file" id="fileInput" accept="image/*" multiple hidden>
+              <span class="dz-ico"><svg class="ic"><use href="#i-upload"></use></svg></span>
+              <strong>Klik untuk memilih foto</strong>
+              <small>atau seret &amp; lepas ke sini — boleh lebih dari satu file</small>
+            </label>
+            <p class="note" id="uploadNote">Foto akan dikompres otomatis sebelum diunggah.</p>
+            <div class="progress" id="progress" hidden><span id="progressBar"></span></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Koleksi Foto</h2>
+              <span class="muted" id="galleryCount">0 foto</span>
+            </div>
+            <div class="admin-gallery" id="adminGallery"></div>
+          </div>
+        </section>
+
+        <!-- ---------------- PESAN ---------------- -->
+        <section class="view" id="view-messages" hidden>
+          <div class="panel">
+            <div class="panel-head">
+              <h2>Kotak Masuk</h2>
+              <button class="btn btn-outline btn-sm" id="refreshMsg"><svg class="ic"><use href="#i-refresh"></use></svg>Muat ulang</button>
+            </div>
+            <div id="messageList" class="msg-list"></div>
+          </div>
+        </section>
+
+        <!-- ---------------- KEAMANAN ---------------- -->
+        <section class="view" id="view-security" hidden>
+          <div class="panel">
+            <div class="panel-head"><h2><svg class="ic"><use href="#i-lock"></use></svg>Ganti Kata Sandi</h2></div>
+
+            <div class="account-card">
+              <span class="acc-ico"><svg class="ic"><use href="#i-user"></use></svg></span>
+              <div class="acc-meta">
+                <small>Akun login</small>
+                <strong id="accEmail">—</strong>
+              </div>
+              <span class="mode-pill" id="accMode">—</span>
+            </div>
+
+            <form id="pwForm">
+              <div class="field">
+                <label for="pwCurrent">Kata sandi saat ini</label>
+                <div class="pw-wrap">
+                  <input id="pwCurrent" type="password" required autocomplete="current-password" placeholder="••••••••">
+                  <button type="button" class="pw-eye" data-toggle="pwCurrent" aria-label="Tampilkan kata sandi"><svg class="ic"><use href="#i-eye"></use></svg></button>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="pwNew">Kata sandi baru</label>
+                <div class="pw-wrap">
+                  <input id="pwNew" type="password" required minlength="8" autocomplete="new-password" placeholder="Minimal 8 karakter">
+                  <button type="button" class="pw-eye" data-toggle="pwNew" aria-label="Tampilkan kata sandi"><svg class="ic"><use href="#i-eye"></use></svg></button>
+                </div>
+                <div class="pw-meter" aria-hidden="true"><span id="pwBar"></span></div>
+                <small class="pw-hint" id="pwHint">Gunakan minimal 8 karakter, kombinasi huruf &amp; angka.</small>
+              </div>
+
+              <div class="field">
+                <label for="pwRepeat">Ulangi kata sandi baru</label>
+                <div class="pw-wrap">
+                  <input id="pwRepeat" type="password" required autocomplete="new-password" placeholder="Ketik ulang sandi baru">
+                  <button type="button" class="pw-eye" data-toggle="pwRepeat" aria-label="Tampilkan kata sandi"><svg class="ic"><use href="#i-eye"></use></svg></button>
+                </div>
+                <small class="pw-hint" id="pwMatch">—</small>
+              </div>
+
+              <div class="form-actions">
+                <button class="btn btn-primary" type="submit" id="pwBtn"><svg class="ic"><use href="#i-save"></use></svg>Simpan Kata Sandi</button>
+              </div>
+              <p class="note" id="pwNote">—</p>
+            </form>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><h2><svg class="ic"><use href="#i-shield"></use></svg>Tips Keamanan</h2></div>
+            <ul class="tips">
+              <li>Gunakan sandi minimal 8 karakter dengan kombinasi huruf besar, huruf kecil, dan angka.</li>
+              <li>Jangan memakai sandi yang sama dengan akun lain (email, media sosial, dll).</li>
+              <li>Ganti sandi secara berkala, terutama bila pernah membagikannya kepada orang lain.</li>
+              <li>Pastikan hanya perangkat tepercaya yang mengakses halaman admin ini.</li>
+              <li id="tipMode">—</li>
+            </ul>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ====================== MODAL LAYANAN ====================== -->
+  <div class="modal" id="serviceModal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="svcModalTitle">Tambah Layanan</h3>
+        <button class="modal-close" id="svcClose"><svg class="ic"><use href="#i-x"></use></svg></button>
+      </div>
+      <form id="serviceForm">
+        <input type="hidden" id="svcId">
+        <div class="field"><label>Nama Layanan</label><input id="svcTitle" type="text" required placeholder="Pemotongan Sapi"></div>
+        <div class="field"><label>Deskripsi</label><textarea id="svcDesc" rows="3" placeholder="Penjelasan singkat layanan"></textarea></div>
+        <div class="field-row">
+          <div class="field">
+            <label>Ikon</label>
+            <select id="svcIcon">
+              <option value="cow">Sapi</option>
+              <option value="goat">Kambing</option>
+              <option value="trade">Jual Beli</option>
+              <option value="truck">Truk / Distribusi</option>
+            </select>
+          </div>
+          <div class="field"><label>Urutan</label><input id="svcOrder" type="number" value="1" min="0"></div>
+        </div>
+        <div class="field checkbox">
+          <label><input type="checkbox" id="svcActive" checked> Tampilkan di website</label>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">Simpan</button>
+          <button class="btn btn-outline" type="button" id="svcCancel">Batal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="rph-data.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
