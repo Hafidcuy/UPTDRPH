@@ -15,10 +15,10 @@
 
 window.SUPABASE_CONFIG = {
   // Contoh: "https://abcdefghij.supabase.co"
-  SUPABASE_URL: "",
+  SUPABASE_URL: "https://cuocaypwgwhidzsoywpu.supabase.co",
 
   // Contoh: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-  SUPABASE_ANON_KEY: "",
+  SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1b2NheXB3Z3doaWR6c295d3B1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyMjY5NzAsImV4cCI6MjEwNjgwMjk3MH0.7XfLvR6mKL4arZn0UCF2dZy4TKsIBdhqKQcSOTD4yRc",
 
   // Nama bucket penyimpanan foto (sudah dibuat oleh supabase-schema.sql)
   STORAGE_BUCKET: "galeri",
