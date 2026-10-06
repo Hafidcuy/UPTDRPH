@@ -42,6 +42,32 @@ const RPH = (() => {
   const uid = () =>
     (crypto.randomUUID ? crypto.randomUUID() : "id-" + Math.random().toString(36).slice(2) + Date.now());
 
+  /* ------------------ penerjemah pesan error (ID) ------------------------
+     Pesan bawaan Supabase/GoTrue/Storage berbahasa Inggris -> bahasa Indonesia.
+     Kalau tidak ada yang cocok, pesan aslinya dipakai apa adanya.          */
+  const ERROR_ID = [
+    [/invalid login credentials/i, "Email atau kata sandi salah."],
+    [/email not confirmed/i, "Email belum dikonfirmasi. Periksa kotak masuk email Anda."],
+    [/user already registered|already been registered/i, "Email sudah terdaftar."],
+    [/user not found/i, "Email tidak terdaftar."],
+    [/weak_password|signup requires a valid password|should be at least 6 characters/i, "Kata sandi minimal 6 karakter dan tidak boleh lemah."],
+    [/new password should be different/i, "Kata sandi baru harus berbeda dari kata sandi lama."],
+    [/rate limit|too many requests/i, "Terlalu banyak percobaan. Coba lagi beberapa menit lagi."],
+    [/failed to fetch|networkerror|load failed|fetch failed/i, "Tidak dapat terhubung ke server. Periksa koneksi internet Anda."],
+    [/row-level security|row violates/i, "Aksi ditolak: admin belum punya izin pada tabel ini (periksa aturan RLS)."],
+    [/the resource already exists|duplicate key|already exists/i, "Data tersebut sudah ada."],
+    [/violates .* constraint|foreign key/i, "Data tidak dapat dihapus karena masih dipakai data lain."],
+    [/bucket not found/i, `Bucket "${cfg.STORAGE_BUCKET || "galeri"}" belum dibuat di Supabase Storage.`],
+    [/permission denied|not allowed to access|unauthorized/i, "Anda tidak punya izin untuk melakukan aksi ini."],
+    [/jwt expired|invalid refresh token|session not found/i, "Sesi admin sudah berakhir. Silakan keluar lalu masuk kembali."],
+    [/timed? ?out|socket|network/i, "Koneksi bermasalah. Coba lagi."],
+  ];
+  function errMsg(err) {
+    const msg = String((err && err.message) || err || "").trim() || "Terjadi kesalahan. Silakan coba lagi.";
+    for (const [re, id] of ERROR_ID) if (re.test(msg)) return id;
+    return msg;
+  }
+
   /* --------------------------- data default ----------------------------- */
   const DEFAULT_SETTINGS = {
     hero_title: "Selamat Datang di RPH Krian",
@@ -105,7 +131,7 @@ const RPH = (() => {
       const { error } = await db
         .from("site_settings")
         .upsert({ id: 1, ...patch, updated_at: new Date().toISOString() });
-      if (error) throw new Error(error.message);
+      if (error) throw new Error(errMsg(error));
       return;
     }
     const next = { ...store.get("rph_settings", {}), ...patch };
@@ -148,7 +174,7 @@ const RPH = (() => {
       const { error } = svc.id
         ? await db.from("services").update(payload).eq("id", svc.id)
         : await db.from("services").insert(payload);
-      if (error) throw new Error(error.message);
+      if (error) throw new Error(errMsg(error));
       return;
     }
     const list = await getAllServices();
@@ -164,7 +190,7 @@ const RPH = (() => {
   async function deleteService(id) {
     if (CLOUD) {
       const { error } = await db.from("services").delete().eq("id", id);
-      if (error) throw new Error(error.message);
+      if (error) throw new Error(errMsg(error));
       return;
     }
     store.set("rph_services", (await getAllServices()).filter((s) => s.id !== id));
@@ -205,14 +231,14 @@ const RPH = (() => {
         const { error } = await db.storage
           .from(cfg.STORAGE_BUCKET)
           .upload(path, compressed.blob, { contentType: compressed.blob.type, upsert: false });
-        if (error) throw new Error(error.message);
+        if (error) throw new Error(errMsg(error));
         const { error: insErr } = await db.from("gallery").insert({
           title: file.name.replace(/\.[^.]+$/, ""),
           image_path: path,
           storage_path: path,
           sort_order: 0,
         });
-        if (insErr) throw new Error(insErr.message);
+        if (insErr) throw new Error(errMsg(insErr));
         results.push(path);
       } else {
         const dataUrl = await blobToDataURL(compressed.blob);
@@ -238,7 +264,7 @@ const RPH = (() => {
     }
     if (CLOUD) {
       const { error } = await db.from("gallery").delete().eq("id", item.id);
-      if (error) throw new Error(error.message);
+      if (error) throw new Error(errMsg(error));
       // Hapus file di Storage hanya untuk hasil upload (ada storage_path)
       if (item.storage_path) {
         await db.storage.from(cfg.STORAGE_BUCKET).remove([item.storage_path]);
@@ -263,7 +289,7 @@ const RPH = (() => {
         .from("messages")
         .select("*")
         .order("created_at", { ascending: false });
-      if (error) throw new Error(error.message);
+      if (error) throw new Error(errMsg(error));
       return data || [];
     }
     return store.get("rph_messages", []);
@@ -273,7 +299,7 @@ const RPH = (() => {
     const payload = { name, email: email || "", phone: phone || "", message };
     if (CLOUD) {
       const { error } = await db.from("messages").insert(payload);
-      if (error) throw new Error(error.message);
+      if (error) throw new Error(errMsg(error));
       return;
     }
     const list = store.get("rph_messages", []);
@@ -284,7 +310,7 @@ const RPH = (() => {
   async function markMessage(id, isRead) {
     if (CLOUD) {
       const { error } = await db.from("messages").update({ is_read: isRead }).eq("id", id);
-      if (error) throw new Error(error.message);
+      if (error) throw new Error(errMsg(error));
       return;
     }
     store.set(
@@ -296,7 +322,7 @@ const RPH = (() => {
   async function deleteMessage(id) {
     if (CLOUD) {
       const { error } = await db.from("messages").delete().eq("id", id);
-      if (error) throw new Error(error.message);
+      if (error) throw new Error(errMsg(error));
       return;
     }
     store.set("rph_messages", (await getMessages()).filter((m) => m.id !== id));
@@ -317,7 +343,7 @@ const RPH = (() => {
   async function signIn(email, password) {
     if (CLOUD) {
       const { data, error } = await auth.signInWithPassword({ email, password });
-      if (error) throw new Error(error.message);
+      if (error) throw new Error(errMsg(error));
       return data.user;
     }
     const ok =
@@ -350,7 +376,7 @@ const RPH = (() => {
       if (verifyErr) throw new Error("Kata sandi saat ini salah.");
 
       const { error } = await auth.updateUser({ password: newPassword });
-      if (error) throw new Error(error.message);
+      if (error) throw new Error(errMsg(error));
       return;
     }
 
@@ -366,7 +392,7 @@ const RPH = (() => {
     const { error } = await auth.resetPasswordForEmail(email, {
       redirectTo: `${location.origin}${location.pathname}`,
     });
-    if (error) throw new Error(error.message);
+    if (error) throw new Error(errMsg(error));
   }
 
   async function signOut() {
