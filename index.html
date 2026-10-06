@@ -158,14 +158,14 @@
   <!-- ============================ TENTANG ============================ -->
   <section id="tentang" class="section">
     <div class="container about-grid">
-      <div class="about-media reveal">
+      <div class="about-media reveal from-left">
         <img src="galeri/1 (12).jpeg" alt="Kegiatan di RPH Krian" loading="lazy">
         <div class="about-badge">
           <strong>Sejak</strong>
           <span>melayani masyarakat Sidoarjo</span>
         </div>
       </div>
-      <div class="about-body reveal">
+      <div class="about-body reveal from-right">
         <span class="eyebrow dark">Tentang Kami</span>
         <h2 id="aboutTitle">Tentang Kami</h2>
         <p id="aboutText" class="lead"></p>
@@ -281,7 +281,7 @@
   <!-- ============================= KONTAK =========================== -->
   <section id="kontak" class="section section-alt">
     <div class="container contact-grid">
-      <div class="reveal">
+      <div class="reveal from-left">
         <span class="eyebrow dark">Hubungi Kami</span>
         <h2>Ada yang bisa kami bantu?</h2>
         <p class="muted">Kirim pesan untuk pemesanan pemotongan hewan, jual beli ternak, atau pertanyaan lainnya.</p>
@@ -302,7 +302,7 @@
         </div>
       </div>
 
-      <form class="contact-form card-surface reveal" id="contactForm">
+      <form class="contact-form card-surface reveal from-right" id="contactForm">
         <h3>Kirim Pesan</h3>
         <div class="field">
           <label for="cName">Nama Lengkap *</label>
@@ -380,12 +380,16 @@
     <button class="lb-nav prev" id="lbPrev" aria-label="Sebelumnya"><svg class="ic"><use href="#i-chevron-left"></use></svg></button>
     <figure>
       <img id="lbImg" alt="Foto galeri">
-      <figcaption id="lbCap"></figcaption>
+      <figcaption><span id="lbCap"></span><span class="lb-count" id="lbCount">1 / 1</span></figcaption>
+      <p class="lb-hint">Geser ke kiri / kanan untuk berpindah foto</p>
     </figure>
     <button class="lb-nav next" id="lbNext" aria-label="Berikutnya"><svg class="ic"><use href="#i-chevron-right"></use></svg></button>
   </div>
 
-  <button class="to-top" id="toTop" aria-label="Kembali ke atas" hidden><svg class="ic"><use href="#i-arrow-up"></use></svg></button>
+  <button class="to-top" id="toTop" aria-label="Kembali ke atas" hidden>
+    <svg class="ring" viewBox="0 0 46 46" aria-hidden="true" focusable="false"><circle cx="23" cy="23" r="19.5"></circle></svg>
+    <svg class="ic" aria-hidden="true"><use href="#i-arrow-up"></use></svg>
+  </button>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 

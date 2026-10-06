@@ -57,6 +57,10 @@ function onScrollFx() {
   progressEl.style.width = pct + "%";
   toTopBtn.hidden = window.scrollY < 480;
 
+  /* cincin progres pada tombol kembali ke atas */
+  const ring = toTopBtn.querySelector(".ring circle");
+  if (ring) ring.style.strokeDashoffset = String(122.5 * (1 - pct / 100));
+
   /* parallax halus pada hero */
   if (window.scrollY < window.innerHeight) {
     const orbs = $(".hero-orbs");
@@ -134,7 +138,12 @@ window.addEventListener(
     const y = window.scrollY + 140;
     let current = "home";
     sections.forEach((s) => y >= s.offsetTop && (current = s.id));
-    $$(".nav-link").forEach((l) => l.classList.toggle("active", l.getAttribute("href") === "#" + current));
+    $$(".nav-link").forEach((l) => {
+      const on = l.getAttribute("href") === "#" + current;
+      l.classList.toggle("active", on);
+      if (on) l.setAttribute("aria-current", "true");
+      else l.removeAttribute("aria-current");
+    });
   },
   { passive: true }
 );
@@ -154,6 +163,53 @@ const io = new IntersectionObserver(
   { threshold: 0.12 }
 );
 $$(".reveal").forEach((el) => io.observe(el));
+
+/* Jeda masuk bertahap untuk elemen reveal yang bersaudara dalam satu wadah */
+function staggerReveal(root = document) {
+  $$(".reveal", root).forEach((el) => {
+    if (el.dataset.staggered || el.style.transitionDelay) return;
+    const p = el.parentElement;
+    if (!p) return;
+    const sibs = [...p.children].filter((c) => c.classList.contains("reveal"));
+    if (sibs.length < 2) return;
+    el.dataset.staggered = "1";
+    el.style.transitionDelay = Math.min(sibs.indexOf(el) * 85, 480) + "ms";
+  });
+}
+staggerReveal();
+
+/* Garis penghubung pada alur pelayanan — tergambar saat masuk layar */
+const stepsFlow = $(".steps-flow");
+if (stepsFlow) {
+  const stepsIo = new IntersectionObserver(
+    (entries) => {
+      if (entries.some((e) => e.isIntersecting)) {
+        stepsFlow.classList.add("drawn");
+        stepsIo.disconnect();
+      }
+    },
+    { threshold: 0.3 }
+  );
+  stepsIo.observe(stepsFlow);
+}
+
+/* FAQ — hanya satu jawaban terbuka pada satu waktu */
+const faqItems = $$(".faq-item");
+faqItems.forEach((d) =>
+  d.addEventListener("toggle", () => {
+    if (d.open) faqItems.forEach((o) => o !== d && (o.open = false));
+  })
+);
+
+/* Indikator gulir di bawah hero menuju bagian berikutnya */
+const heroScroll = $(".hero-scroll");
+if (heroScroll) {
+  const goNext = () => {
+    const target = $(".strip") || $("#tentang");
+    if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  heroScroll.addEventListener("click", goNext);
+}
 
 /* =========================== RENDER KONTEN ============================= */
 let settings = {};
@@ -216,6 +272,7 @@ async function loadServices() {
 /* ------------------------------ GALERI --------------------------------- */
 let galleryData = [];
 let visibleCount = 12;
+let renderedUpTo = 0;
 const PAGE = 12;
 
 async function loadGallery() {
@@ -225,6 +282,7 @@ async function loadGallery() {
 
 function renderGallery() {
   const wrap = $("#gallery");
+  const prev = renderedUpTo;
   const slice = galleryData.slice(0, visibleCount);
   if (!slice.length) {
     wrap.innerHTML = `<div class="gallery-empty">Belum ada foto. Tambahkan lewat <a href="admin.html">Admin Panel</a>.</div>`;
@@ -232,16 +290,19 @@ function renderGallery() {
     return;
   }
   wrap.innerHTML = slice
-    .map(
-      (g, i) => `
-    <figure data-index="${i}" tabindex="0" role="button" aria-label="Buka foto ${i + 1}">
-      <img src="${g.url || g.image_path}" alt="${escapeHtml(g.title || "Dokumentasi RPH Krian")}" loading="lazy">
+    .map((g, i) => {
+      const seen = i < prev; /* foto yang sudah tampil sebelumnya tidak diulang animasinya */
+      return `
+    <figure class="reveal${seen ? " visible" : ""}" data-index="${i}" tabindex="0" role="button" aria-label="Buka foto ${i + 1}"${seen ? "" : ` style="transition-delay:${(i % PAGE) * 65}ms"`}>
+      <img class="${seen ? "loaded" : ""}" src="${g.url || g.image_path}" alt="${escapeHtml(g.title || "Dokumentasi RPH Krian")}" loading="lazy" onload="this.classList.add('loaded')" onerror="this.classList.add('loaded')">
       <figcaption>${escapeHtml(g.title || "RPH Krian")}</figcaption>
-    </figure>`
-    )
+    </figure>`;
+    })
     .join("");
+  renderedUpTo = visibleCount;
 
   $$("#gallery figure").forEach((fig) => {
+    io.observe(fig);
     const open = () => openLightbox(Number(fig.dataset.index));
     fig.addEventListener("click", open);
     fig.addEventListener("keydown", (e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), open()));
@@ -268,8 +329,17 @@ function openLightbox(i) {
 function updateLightbox() {
   const item = galleryData[lbIndex];
   if (!item) return;
-  $("#lbImg").src = item.url || item.image_path;
-  $("#lbCap").textContent = item.title || `Foto ${lbIndex + 1} / ${galleryData.length}`;
+  const img = $("#lbImg");
+  const url = item.url || item.image_path;
+  /* transisi halus saat foto berganti */
+  img.classList.remove("swap");
+  img.onload = () => img.classList.add("swap");
+  img.src = url;
+  $("#lbCap").textContent = item.title || `Foto ${lbIndex + 1}`;
+  $("#lbCount").textContent = `${lbIndex + 1} / ${galleryData.length}`;
+  /* pra-muat foto berikutnya agar geserannya lancar */
+  const next = galleryData[(lbIndex + 1) % galleryData.length];
+  if (next) new Image().src = next.url || next.image_path;
 }
 function closeLightbox() {
   lb.hidden = true;
@@ -290,6 +360,20 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowRight") moveLightbox(1);
   if (e.key === "ArrowLeft") moveLightbox(-1);
 });
+
+/* Geser dengan jari pada layar sentuh */
+let touchX = null;
+lb.addEventListener("touchstart", (e) => (touchX = e.touches[0].clientX), { passive: true });
+lb.addEventListener(
+  "touchend",
+  (e) => {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    touchX = null;
+    if (Math.abs(dx) > 48) moveLightbox(dx < 0 ? 1 : -1);
+  },
+  { passive: true }
+);
 
 /* ----------------------------- KONTAK ---------------------------------- */
 $("#contactForm").addEventListener("submit", async (e) => {
