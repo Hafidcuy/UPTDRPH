@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Prototipe tampilan editorial untuk situs UPTD RPH & Pasar Hewan Krian.">
+  <title>Prototipe Editorial — RPH Krian</title>
+  <link rel="icon" href="logo-sidoarjo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ================================================================
+       PROTOTIPE GAYA EDITORIAL — halaman pembanding, bukan halaman utama
+       ================================================================ */
+    :root {
+      --ink: #16241c;
+      --soft: #4b5f55;
+      --muted: #6b7d74;
+      --line: #e1e8e3;
+      --paper: #f6f9f7;
+      --green: #2e7d32;
+      --deep: #0f3d1f;
+      --f-display: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --f-body: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --max: 1180px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+    body {
+      margin: 0;
+      font-family: var(--f-body);
+      font-size: 17px;
+      line-height: 1.62;
+      color: var(--ink);
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: var(--green); }
+    h1, h2, h3, h4 { font-family: var(--f-display); font-weight: 700; letter-spacing: -0.02em; line-height: 1.14; margin: 0; }
+    p { margin: 0 0 1em; }
+    .wrap { width: min(var(--max), 100% - 48px); margin-inline: auto; }
+
+    /* --------------------------- masthead --------------------------- */
+    .masthead { background: var(--deep); color: rgba(255, 255, 255, .78); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; }
+    .masthead .wrap { display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; }
+    .masthead a { color: #a8e6b3; text-decoration: none; }
+    .masthead a:hover { text-decoration: underline; }
+    .masthead .short { display: none; }
+
+    /* ---------------------------- header ---------------------------- */
+    .site-head { position: sticky; top: 0; z-index: 60; background: #fff; border-bottom: 1px solid var(--line); }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 74px; }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+    .brand img { width: 46px; height: 46px; }
+    .brand b { display: block; font-family: var(--f-display); font-size: 1.12rem; letter-spacing: -0.02em; }
+    .brand span { display: block; font-size: .66rem; letter-spacing: .11em; text-transform: uppercase; color: var(--muted); }
+    .nav-links { display: flex; align-items: center; gap: 22px; }
+    .nav-links a {
+      color: var(--soft); text-decoration: none; font-weight: 600; font-size: .93rem;
+      padding: 6px 0; border-bottom: 2px solid transparent;
+    }
+    .nav-links a:hover { color: var(--green); border-bottom-color: var(--green); }
+    .nav-links a.admin { color: var(--green); font-weight: 700; }
+
+    /* ----------------------------- hero ----------------------------- */
+    .hero { border-bottom: 1px solid var(--line); }
+    .hero-grid { display: grid; grid-template-columns: 7fr 5fr; gap: 56px; padding: 70px 0 62px; align-items: start; }
+    .kicker {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 24px;
+      font-family: var(--f-display); font-size: .72rem; font-weight: 700;
+      letter-spacing: .16em; text-transform: uppercase; color: var(--green);
+    }
+    .kicker::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+    h1 { font-size: clamp(2.15rem, 4.3vw, 3.5rem); line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 22px; }
+    .deck { font-size: 1.16rem; color: var(--soft); max-width: 54ch; margin-bottom: 30px; }
+    .meta { margin: 0 0 30px; border-top: 1px solid var(--line); }
+    .meta .row { display: grid; grid-template-columns: 148px 1fr; gap: 16px; padding: 11px 2px; border-bottom: 1px solid var(--line); }
+    .meta dt { font-family: var(--f-display); font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); align-self: center; }
+    .meta dd { margin: 0; font-weight: 600; font-size: 1rem; }
+    .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 9px; padding: 13px 26px; border-radius: 4px;
+      background: var(--green); color: #fff; font-family: var(--f-body); font-weight: 700;
+      font-size: .97rem; text-decoration: none; border: 1.5px solid var(--green); transition: .2s ease;
+    }
+    .btn:hover { background: var(--deep); border-color: var(--deep); }
+    .btn-light { background: #fff; color: var(--deep); border-color: #fff; }
+    .btn-light:hover { background: #a8e6b3; border-color: #a8e6b3; color: var(--deep); }
+    .link-arrow { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; text-decoration: none; color: var(--green); }
+    .link-arrow svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform .2s ease; }
+    .link-arrow:hover { text-decoration: underline; text-underline-offset: 4px; }
+    .link-arrow:hover svg { transform: translateX(4px); }
+    .hero-fig { margin: 0; padding-top: 14px; border-top: 3px solid var(--green); }
+    .hero-fig img { width: 100%; aspect-ratio: 4 / 3.4; object-fit: cover; }
+    figcaption { font-size: .82rem; line-height: 1.5; color: var(--muted); padding-top: 10px; }
+
+    /* ---------------------------- facts ----------------------------- */
+    .facts { background: var(--paper); border-bottom: 1px solid var(--line); }
+    .facts-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .fact { padding: 30px 26px; border-left: 1px solid var(--line); }
+    .fact:first-child { border-left: 0; padding-left: 0; }
+    .fact strong { display: block; font-family: var(--f-display); font-size: 2.6rem; font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
+    .fact span { display: block; margin-top: 10px; font-family: var(--f-display); font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+    /* --------------------------- sections --------------------------- */
+    .sec { padding: 74px 0; border-bottom: 1px solid var(--line); }
+    .sec-head { display: flex; align-items: baseline; gap: 18px; margin-bottom: 42px; }
+    .sec-num { font-family: var(--f-display); font-size: .78rem; font-weight: 700; letter-spacing: .18em; color: var(--green); }
+    .sec-head h2 { font-size: clamp(1.45rem, 2.6vw, 2rem); }
+    .sec-head::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+    .about-grid { display: grid; grid-template-columns: 7fr 5fr; gap: 56px; align-items: start; }
+    .prose .lead { font-size: 1.22rem; color: var(--ink); margin-bottom: 20px; }
+    .prose p { color: var(--soft); }
+    .side-fig { margin: 0; }
+    .side-fig img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+    .side-block { margin-top: 30px; border-top: 2px solid var(--ink); padding-top: 14px; }
+    .side-block h4 { font-family: var(--f-display); font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .side-block .row { display: grid; grid-template-columns: 1fr; gap: 2px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+    .side-block .row:last-child { border-bottom: 0; }
+    .side-block .row b { font-size: .74rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-family: var(--f-display); }
+    .side-block .row span { font-weight: 600; font-size: .98rem; }
+
+    /* --------------------------- layanan ---------------------------- */
+    .svc {
+      display: grid; grid-template-columns: 54px 1fr auto; gap: 20px; align-items: center;
+      padding: 22px 0; border-top: 1px solid var(--line); text-decoration: none; color: inherit;
+      transition: background .18s ease, padding .18s ease;
+    }
+    .svc:last-of-type { border-bottom: 1px solid var(--line); }
+    .svc:hover { background: var(--paper); padding-inline: 14px; }
+    .svc .n { font-family: var(--f-display); font-size: .82rem; font-weight: 700; letter-spacing: .1em; color: var(--muted); }
+    .svc h3 { font-size: 1.22rem; margin-bottom: 4px; }
+    .svc p { margin: 0; color: var(--soft); font-size: .98rem; max-width: 62ch; }
+    .svc .go { color: var(--green); }
+    .svc .go svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+    /* ----------------------------- cta ------------------------------ */
+    .cta { background: var(--deep); color: #fff; }
+    .cta .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 26px; padding: 52px 0; }
+    .cta h2 { font-size: clamp(1.4rem, 2.4vw, 1.85rem); color: #fff; margin-bottom: 8px; }
+    .cta p { margin: 0; color: rgba(255, 255, 255, .76); }
+    .cta .actions .link-arrow { color: #a8e6b3; }
+
+    /* ---------------------------- footer ---------------------------- */
+    .foot { background: #fff; }
+    .foot-grid { display: grid; grid-template-columns: 1.6fr 1fr 1.2fr; gap: 44px; padding: 56px 0 44px; }
+    .foot h4 { font-family: var(--f-display); font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+    .foot p { color: var(--soft); font-size: .96rem; }
+    .foot nav { display: grid; gap: 8px; }
+    .foot nav a { color: var(--soft); text-decoration: none; font-weight: 600; font-size: .96rem; }
+    .foot nav a:hover { color: var(--green); }
+    .foot .brand { margin-bottom: 14px; }
+    .foot-bar { border-top: 1px solid var(--line); }
+    .foot-bar .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 18px 0; font-size: .86rem; color: var(--muted); }
+    .foot-bar a { color: var(--green); font-weight: 600; text-decoration: none; }
+
+    /* -------------------------- responsive -------------------------- */
+    @media (max-width: 980px) {
+      .hero-grid, .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .hero-grid { padding-top: 52px; }
+      .facts-grid { grid-template-columns: repeat(2, 1fr); }
+      .fact { padding: 24px 20px; }
+      .fact:first-child { padding-left: 20px; }
+      .fact:nth-child(odd) { border-left: 0; padding-left: 0; }
+      .fact:nth-child(n + 3) { border-top: 1px solid var(--line); }
+      .foot-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { gap: 16px; font-size: .9rem; }
+    }
+    @media (max-width: 760px) {
+      .nav-links a:not(.admin) { display: none; }
+      .sec { padding: 56px 0; }
+      .svc { grid-template-columns: 40px 1fr; }
+      .svc .go { display: none; }
+      .masthead .wrap { flex-direction: column; align-items: flex-start; gap: 2px; padding: 8px 0; }
+      .masthead .full { display: none; }
+      .masthead .short { display: inline; }
+      .masthead { font-size: 10.5px; letter-spacing: .07em; }
+    }
+    @media (max-width: 560px) {
+      .wrap { width: min(var(--max), 100% - 32px); }
+      .facts-grid { grid-template-columns: 1fr; }
+      .fact { border-left: 0; padding: 20px 0; }
+      .fact:first-child { padding-left: 0; }
+      .fact:not(:first-child) { border-top: 1px solid var(--line); }
+      .meta .row { grid-template-columns: 1fr; gap: 2px; }
+      .foot-grid { grid-template-columns: 1fr; gap: 32px; }
+      .actions { gap: 16px; }
+      .btn { width: 100%; justify-content: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================ MASTHEAD =========================== -->
+  <div class="masthead">
+    <div class="wrap">
+      <span>
+        <span class="full">Pemerintah Kabupaten Sidoarjo · Dinas Pangan dan Pertanian</span>
+        <span class="short">Kabupaten Sidoarjo</span>
+      </span>
+      <a href="index.html">
+        <span class="full">Prototipe — lihat versi saat ini →</span>
+        <span class="short">Versi saat ini →</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ============================= HEADER =========================== -->
+  <header class="site-head">
+    <div class="wrap nav">
+      <a class="brand" href="preview-editorial.html">
+        <img src="logo-sidoarjo.svg" alt="Lambang Kabupaten Sidoarjo" width="46" height="46">
+        <span>
+          <b>RPH Krian</b>
+          <span>UPTD Sidoarjo</span>
+        </span>
+      </a>
+      <nav class="nav-links">
+        <a href="#home">Beranda</a>
+        <a href="#tentang">Tentang</a>
+        <a href="#layanan">Layanan</a>
+        <a href="#kontak">Kontak</a>
+        <a href="admin.html" class="admin">Admin →</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============================== HERO ============================ -->
+  <section class="hero" id="home">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="kicker">UPTD Rumah Potong Hewan &amp; Pasar Hewan — Krian</p>
+        <h1>Pemotongan hewan yang higienis, resmi, dan dekat dengan warga.</h1>
+        <p class="deck">
+          Layanan penyembelihan sapi dan kambing sesuai standar keamanan pangan,
+          dikelola langsung oleh Unit Pelaksana Teknis Daerah di bawah Dinas Pangan
+          dan Pertanian Kabupaten Sidoarjo.
+        </p>
+
+        <dl class="meta">
+          <div class="row"><dt>Alamat</dt><dd>Jl. Ki Hajar Dewantara, Dusun Ngingas, Kel. Krian</dd></div>
+          <div class="row"><dt>Jam layanan</dt><dd>Senin – Sabtu, 07.00 – 16.00 WIB</dd></div>
+          <div class="row"><dt>Telepon</dt><dd>0812-3456-7890</dd></div>
+          <div class="row"><dt>Satuan pengelola</dt><dd>UPTD RPH &amp; Pasar Hewan Krian</dd></div>
+        </dl>
+
+        <div class="actions">
+          <a class="btn" href="#layanan">Lihat layanan</a>
+          <a class="link-arrow" href="#kontak">
+            Hubungi kami
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <figure class="hero-fig">
+        <img src="galeri/1 (27).jpeg" alt="Pelataran RPH Krian" width="720" height="612">
+        <figcaption>Pelataran UPTD RPH &amp; Pasar Hewan Krian, Kecamatan Krian. Dokumentasi unit pelaksana.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============================= FACTS ============================ -->
+  <section class="facts" aria-label="Sorotan singkat">
+    <div class="wrap facts-grid">
+      <div class="fact"><strong>4</strong><span>Jenis layanan</span></div>
+      <div class="fact"><strong>69</strong><span>Foto dokumentasi</span></div>
+      <div class="fact"><strong>6</strong><span>Hari operasional / minggu</span></div>
+      <div class="fact"><strong>UPTD</strong><span>Status unit pelaksana</span></div>
+    </div>
+  </section>
+
+  <!-- ============================ TENTANG =========================== -->
+  <section class="sec" id="tentang">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-num">01 — Tentang</span>
+        <h2>Unit pelaksana layanan pemotongan hewan dan pelataran ternak</h2>
+      </div>
+
+      <div class="about-grid">
+        <div class="prose">
+          <p class="lead">
+            UPTD RPH dan Pasar Hewan adalah unit pelaksana teknis daerah yang bergerak
+            di bidang jasa pelayanan tempat pemotongan hewan serta jasa pelataran jual beli ternak.
+          </p>
+          <p>
+            Berlokasi di Jalan Ki Hajar Dewantara, Dusun Ngingas, Kelurahan Krian, Kecamatan Krian,
+            Kabupaten Sidoarjo, unit ini bertindak di bawah naungan Dinas Pangan dan Pertanian
+            Kabupaten Sidoarjo. Layanan mencakup penyembelihan sapi dan kambing dengan prosedur
+            higienis, penyiapan daging siap edar, serta pelataran jual beli ternak bagi petani dan
+            pedagang sekitar.
+          </p>
+          <p>
+            Setiap proses dilakukan oleh petugas unit, bukan perorangan, sehingga aspek
+            kebersihan, kesehatan hewan, dan ketertiban pelataran dapat diawasi dalam satu tempat.
+          </p>
+        </div>
+
+        <aside>
+          <figure class="side-fig">
+            <img src="galeri/1 (12).jpeg" alt="Kegiatan di RPH Krian" loading="lazy" width="640" height="480">
+            <figcaption>Kegiatan operasional harian di area RPH Krian.</figcaption>
+          </figure>
+
+          <div class="side-block">
+            <h4>Kelembagaan</h4>
+            <div class="row"><b>Naungan</b><span>Dinas Pangan dan Pertanian Kab. Sidoarjo</span></div>
+            <div class="row"><b>Dasar kegiatan</b><span>UU No. 41 Tahun 2014 tentang Peternakan dan Kesehatan Hewan</span></div>
+            <div class="row"><b>Lokasi</b><span>Kecamatan Krian, Kabupaten Sidoarjo, Jawa Timur</span></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ LAYANAN =========================== -->
+  <section class="sec" id="layanan">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-num">02 — Layanan</span>
+        <h2>Empat layanan utama unit kami</h2>
+      </div>
+
+      <a class="svc" href="#kontak">
+        <span class="n">01</span>
+        <div>
+          <h3>Pemotongan Sapi</h3>
+          <p>Layanan penyembelihan sapi dengan prosedur higienis dan sesuai standar.</p>
+        </div>
+        <span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+
+      <a class="svc" href="#kontak">
+        <span class="n">02</span>
+        <div>
+          <h3>Pemotongan Kambing</h3>
+          <p>Layanan penyembelihan kambing/domba untuk kebutuhan qurban dan konsumsi.</p>
+        </div>
+        <span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+
+      <a class="svc" href="#kontak">
+        <span class="n">03</span>
+        <div>
+          <h3>Jual Beli Hewan Ternak</h3>
+          <p>Jasa pelataran jual beli hewan ternak dengan harga yang kompetitif.</p>
+        </div>
+        <span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+
+      <a class="svc" href="#kontak">
+        <span class="n">04</span>
+        <div>
+          <h3>Pengolahan &amp; Distribusi</h3>
+          <p>Pemotongan, pencacahan, dan penyiapan daging siap edar untuk kebutuhan pasar.</p>
+        </div>
+        <span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================== CTA ============================= -->
+  <section class="cta" id="kontak">
+    <div class="wrap">
+      <div>
+        <h2>Butuh layanan pemotongan hewan?</h2>
+        <p>Hubungi petugas RPH Krian untuk jadwal dan informasi layanan — Senin s/d Sabtu, 07.00 – 16.00 WIB.</p>
+      </div>
+      <div class="actions">
+        <a class="btn btn-light" href="tel:081234567890">0812-3456-7890</a>
+        <a class="link-arrow" href="mailto:rphkrian@sidoarjokab.go.id">
+          rphkrian@sidoarjokab.go.id
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= FOOTER =========================== -->
+  <footer class="foot">
+    <div class="wrap foot-grid">
+      <div>
+        <div class="brand">
+          <img src="logo-sidoarjo.svg" alt="Lambang Kabupaten Sidoarjo" width="46" height="46">
+          <span>
+            <b>RPH Krian</b>
+            <span>UPTD Sidoarjo</span>
+          </span>
+        </div>
+        <p>Layanan pemotongan hewan higienis dan terstandar di bawah Dinas Pangan dan Pertanian Kabupaten Sidoarjo.</p>
+      </div>
+
+      <div>
+        <h4>Navigasi</h4>
+        <nav>
+          <a href="#home">Beranda</a>
+          <a href="#tentang">Tentang</a>
+          <a href="#layanan">Layanan</a>
+          <a href="index.html">Versi situs saat ini</a>
+          <a href="admin.html">Admin panel</a>
+        </nav>
+      </div>
+
+      <div>
+        <h4>Kontak</h4>
+        <p>Jl. Ki Hajar Dewantara, Dusun Ngingas,<br>Kel. Krian, Kec. Krian, Kab. Sidoarjo, Jawa Timur</p>
+        <p>0812-3456-7890<br>rphkrian@sidoarjokab.go.id</p>
+      </div>
+    </div>
+
+    <div class="foot-bar">
+      <div class="wrap">
+        <span>© 2026 RPH Krian — UPTD RPH &amp; Pasar Hewan, Kabupaten Sidoarjo.</span>
+        <span>Halaman prototipe gaya editorial (bukan halaman utama).</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
