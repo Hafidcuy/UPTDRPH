@@ -50,6 +50,8 @@ body.dark-mode {
 
 /* ------------------------------ base ---------------------------------- */
 * { box-sizing: border-box; }
+/* Atribut hidden harus selalu menang atas aturan display lain. */
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 12px); }
 body {
   margin: 0;

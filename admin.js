@@ -38,12 +38,7 @@ async function boot() {
     ? "Masuk dengan akun admin Supabase Anda."
     : "Mode Demo aktif — Supabase belum dikonfigurasi.";
   $("#demoHint").hidden = RPH.isCloud;
-  if (!RPH.isCloud) {
-    const hint = RPH.getDemoHint();
-    $("#demoEmail").textContent = hint.email;
-    $("#demoPass").textContent = hint.password;
-    $("#loginEmail").value = hint.email;
-  }
+  if (!RPH.isCloud) renderDemoHint();
   const pill = $("#modePill");
   pill.textContent = RPH.isCloud ? "● Terhubung Supabase" : "● Mode Demo (lokal)";
   pill.classList.toggle("cloud", RPH.isCloud);
@@ -53,9 +48,19 @@ async function boot() {
     : "Mode Demo: foto dikompres dan disimpan di browser ini. Hubungkan Supabase agar tersimpan permanen.";
 }
 
+/* Tampilkan petunjuk akun demo yang selalu up-to-date (sandi bisa diganti admin). */
+function renderDemoHint() {
+  if (RPH.isCloud) return;
+  const hint = RPH.getDemoHint();
+  $("#demoEmail").textContent = hint.email;
+  $("#demoPass").textContent = hint.password;
+  $("#loginEmail").value = hint.email;
+}
+
 function showAuth() {
   $("#authView").hidden = false;
   $("#appView").hidden = true;
+  renderDemoHint();
 }
 function showApp() {
   $("#authView").hidden = true;
@@ -72,6 +77,7 @@ $("#loginForm").addEventListener("submit", async (e) => {
     await RPH.signIn($("#loginEmail").value.trim(), $("#loginPass").value);
     toast("Berhasil masuk!");
     showApp();
+    switchView("overview"); // selalu mulai dari Ringkasan setelah masuk
   } catch (err) {
     toast(err.message, "error");
   } finally {
@@ -84,6 +90,7 @@ $("#logoutBtn").addEventListener("click", async () => {
   await RPH.signOut();
   toast("Anda telah keluar.");
   showAuth();
+  switchView("overview"); // login berikutnya selalu mulai bersih
 });
 
 /* ============================== NAVIGATION ============================== */
@@ -95,22 +102,36 @@ const TITLES = {
   messages: "Pesan Masuk",
   security: "Keamanan Akun",
 };
+/** Tampilkan satu view + sinkronkan nav aktif + muat datanya. */
+function switchView(view) {
+  if (!TITLES[view]) view = "overview";
+  $$(".side-link").forEach((b) => b.classList.toggle("active", b.dataset.view === view));
+  $$(".view").forEach((v) => (v.hidden = v.id !== "view-" + view));
+  $("#viewTitle").textContent = TITLES[view];
+  setDrawer(false);
+  if (view === "messages") loadMessages();
+  if (view === "gallery") loadGalleryAdmin();
+  if (view === "services") loadServices();
+  if (view === "content") loadSettings();
+  if (view === "security") loadAccount();
+}
 $$(".side-link").forEach((btn) =>
-  btn.addEventListener("click", () => {
-    $$(".side-link").forEach((b) => b.classList.remove("active"));
-    btn.classList.add("active");
-    const view = btn.dataset.view;
-    $$(".view").forEach((v) => (v.hidden = v.id !== "view-" + view));
-    $("#viewTitle").textContent = TITLES[view];
-    $("#sidebar").classList.remove("open");
-    if (view === "messages") loadMessages();
-    if (view === "gallery") loadGalleryAdmin();
-    if (view === "services") loadServices();
-    if (view === "content") loadSettings();
-    if (view === "security") loadAccount();
-  })
+  btn.addEventListener("click", () => switchView(btn.dataset.view))
 );
-$("#menuToggle").addEventListener("click", () => $("#sidebar").classList.toggle("open"));
+
+/* --------------------------- drawer (mobile) ---------------------------- */
+function setDrawer(open) {
+  $("#sidebar").classList.toggle("open", open);
+  $("#sidebarBackdrop").hidden = !open;
+  document.body.classList.toggle("drawer-open", open);
+}
+$("#menuToggle").addEventListener("click", () =>
+  setDrawer(!$("#sidebar").classList.contains("open"))
+);
+$("#sidebarBackdrop").addEventListener("click", () => setDrawer(false));
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 900) setDrawer(false);
+});
 
 /* ============================== REFRESH ALL ============================= */
 async function refreshAll() {
@@ -526,7 +547,7 @@ $("#forgotBtn").addEventListener("click", async () => {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     closeServiceModal();
-    $("#sidebar").classList.remove("open");
+    setDrawer(false);
   }
 });
 boot();

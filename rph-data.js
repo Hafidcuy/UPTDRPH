@@ -188,9 +188,10 @@ const RPH = (() => {
         }))
       );
     }
-    const local = store.get("rph_gallery", null);
-    if (local && local.length) return local;
-    return hide(seedGallery());
+    // Mode demo: gabungkan foto yang diunggah dengan foto seed agar
+    // menambahkan 1 foto tidak menyembunyikan seluruh galeri lama.
+    const local = store.get("rph_gallery", []) || [];
+    return hide([...local, ...seedGallery()]);
   }
 
   async function addGalleryImages(files, onProgress) {

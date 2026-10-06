@@ -31,16 +31,17 @@ const header = $("#header");
 const menu = $("#menu");
 const hamburger = $("#hamburger");
 
-hamburger.addEventListener("click", () => {
-  menu.classList.toggle("active");
-  hamburger.classList.toggle("open");
+function setMenu(open) {
+  menu.classList.toggle("active", open);
+  hamburger.classList.toggle("open", open);
+  hamburger.setAttribute("aria-expanded", String(open));
+  hamburger.setAttribute("aria-label", open ? "Tutup menu" : "Buka menu");
+}
+hamburger.addEventListener("click", () => setMenu(!menu.classList.contains("active")));
+$$(".nav-link, .menu a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && menu.classList.contains("active")) setMenu(false);
 });
-$$(".nav-link, .menu a").forEach((a) =>
-  a.addEventListener("click", () => {
-    menu.classList.remove("active");
-    hamburger.classList.remove("open");
-  })
-);
 
 window.addEventListener("scroll", () => header.classList.toggle("scrolled", window.scrollY > 40), { passive: true });
 

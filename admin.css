@@ -12,6 +12,9 @@
   --font: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 }
 * { box-sizing: border-box; }
+/* Atribut hidden harus selalu menang — aturan display di bawah tidak boleh
+   menimpanya (login & dashboard tidak boleh tampil bersamaan). */
+[hidden] { display: none !important; }
 body {
   margin: 0; font-family: var(--font); background: var(--bg); color: var(--text);
   line-height: 1.6; -webkit-font-smoothing: antialiased;
@@ -160,7 +163,11 @@ code {
 .note { font-size: .87rem; color: var(--muted); background: var(--bg); border-left: 3px solid var(--green-500); padding: 12px 14px; border-radius: 8px; }
 .form-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
 
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; }
+/* 4 kartu statistik: 2×2 di layar sedang, 4 sejajar di layar lebar (tanpa kartu menggantung). */
+.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+@media (min-width: 1180px) {
+  .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
 .stat {
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
   padding: 20px; display: flex; gap: 15px; align-items: center; box-shadow: var(--shadow-sm);
@@ -316,9 +323,21 @@ code {
     transition: transform .3s ease; box-shadow: var(--shadow);
   }
   .sidebar.open { transform: none; }
+  .sidebar-backdrop:not([hidden]) {
+    display: block; position: fixed; inset: 0; z-index: 190;
+    background: rgba(8, 24, 15, .48); backdrop-filter: blur(2px);
+    animation: fade .2s ease;
+  }
+  body.drawer-open { overflow: hidden; }
   .menu-toggle { display: block; }
   .content { padding: 20px 16px; }
   .field-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  /* Baris layanan menumpuk agar teks deskripsi tidak terjepit nol px */
+  .list-item { flex-direction: column; align-items: stretch; gap: 12px; }
+  .li-body { flex: none; width: 100%; }
+  .li-actions { width: 100%; justify-content: flex-end; }
 }
 @media (max-width: 520px) {
   .auth-card { padding: 28px 22px; }
