@@ -36,6 +36,7 @@ function setMenu(open) {
   hamburger.classList.toggle("open", open);
   hamburger.setAttribute("aria-expanded", String(open));
   hamburger.setAttribute("aria-label", open ? "Tutup menu" : "Buka menu");
+  document.body.classList.toggle("nav-open", open);
 }
 hamburger.addEventListener("click", () => setMenu(!menu.classList.contains("active")));
 $$(".nav-link, .menu a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
