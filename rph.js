@@ -57,6 +57,10 @@ function onScrollFx() {
   progressEl.style.width = pct + "%";
   toTopBtn.hidden = window.scrollY < 480;
 
+  /* tombol aksi mengambang: muncul setelah hero dilewati */
+  const fabs = $("#fabStack");
+  if (fabs) fabs.classList.toggle("show", window.scrollY > 420);
+
   /* cincin progres pada tombol kembali ke atas */
   const ring = toTopBtn.querySelector(".ring circle");
   if (ring) ring.style.strokeDashoffset = String(122.5 * (1 - pct / 100));
@@ -239,7 +243,59 @@ async function loadSettings() {
   $("#cntDays").dataset.count = parseOpenDays(settings.operating_hours);
   syncStats();
 
+  wireFabActions(phone);
+  startTicker([
+    "Selamat datang di UPTD RPH & Pasar Hewan Krian",
+    `Jam operasional: ${settings.operating_hours || "Senin – Sabtu, 07.00 – 16.00 WIB"}`,
+    "Layanan pemotongan sapi & kambing yang higienis, aman, dan sesuai syariat",
+    phone ? `Info & pemesanan: ${phone}` : "Pelayanan prima untuk warga Kabupaten Sidoarjo",
+  ]);
+
   if (settings.hero_image) $(".hero-bg").style.backgroundImage = `url("${settings.hero_image}")`;
+}
+
+/* ------------------- RUNNING TEXT PENGUMUMAN (TIPEWRITER) --------------- */
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+let tickerTimer = null;
+
+function startTicker(messages) {
+  const el = $("#tickerText");
+  const msgs = messages.filter(Boolean);
+  if (!el || !msgs.length) return;
+  clearTimeout(tickerTimer);
+  if (reduceMotion.matches) { el.textContent = msgs[0]; return; }
+
+  let mi = 0, ci = 0, deleting = false;
+  const step = () => {
+    const msg = msgs[mi];
+    ci += deleting ? -1 : 1;
+    if (ci > msg.length) ci = msg.length;
+    el.textContent = msg.slice(0, ci);
+    let wait = deleting ? 22 : 55;
+    if (!deleting && ci === msg.length) { deleting = true; wait = 2800; }
+    else if (deleting && ci <= 0) { deleting = false; mi = (mi + 1) % msgs.length; wait = 420; }
+    tickerTimer = setTimeout(step, wait);
+  };
+  tickerTimer = setTimeout(step, 350);
+}
+
+/* --------------------- TOMBOL AKSI MENGAMBANG -------------------------- */
+function wireFabActions(phone) {
+  const stack = $("#fabStack");
+  if (!stack) return;
+  if (!phone) { stack.remove(); return; }
+
+  const tel = $("#fabTel");
+  const wa = $("#fabWa");
+  if (tel) tel.href = "tel:" + phone.replace(/[^\d+]/g, "");
+
+  const digits = phone.replace(/\D/g, "");
+  const intl = digits.startsWith("0") ? "62" + digits.slice(1) : digits;
+  if (wa) {
+    wa.href = `https://wa.me/${intl}?text=${encodeURIComponent("Halo UPTD RPH Krian, saya ingin bertanya tentang layanan pemotongan hewan.")}`;
+    wa.target = "_blank";
+    wa.rel = "noopener";
+  }
 }
 
 /* Perbarui angka statistik lalu jalankan animasi bila pita sudah terlihat */
