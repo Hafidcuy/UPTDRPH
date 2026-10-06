@@ -190,9 +190,38 @@
       .actions { gap: 16px; }
       .btn { width: 100%; justify-content: center; }
     }
+    /* ====================== PENYEMPURNAN INTERAKSI ==================== */
+    .site-head { transition: box-shadow .3s ease; }
+    .site-head.stuck { box-shadow: 0 12px 28px rgba(22,36,28,.07); }
+
+    /* masuk saat digulir — tetap tenang, tanpa efek berlebih */
+    [data-rv] { opacity: 0; transform: translateY(16px); transition: opacity .68s ease, transform .68s ease; }
+    [data-rv].on { opacity: 1; transform: none; }
+
+    /* garis pemisah judul bagian yang tergambar dari kiri */
+    .sec-head::after { transform: scaleX(0); transform-origin: left; transition: transform .95s cubic-bezier(.2,.7,.3,1) .12s; }
+    .sec-head.on::after { transform: none; }
+
+    .svc .go svg { transition: transform .25s ease; }
+    .svc:hover .go svg { transform: translateX(6px); }
+    .svc:focus-visible { background: var(--paper); }
+
+    .fact { transition: background .25s ease, box-shadow .25s ease; }
+    .fact:hover { background: #fff; box-shadow: inset 3px 0 0 var(--green); }
+    .fact strong { font-variant-numeric: tabular-nums; }
+
+    .nav-links a.on { color: var(--green); border-bottom-color: var(--green); }
+
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+    .btn { transition: background .2s ease, transform .2s ease; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: translateY(0); }
+
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      * { transition: none !important; }
+      * { transition: none !important; animation: none !important; }
+      [data-rv] { opacity: 1 !important; transform: none !important; }
+      .sec-head::after { transform: none !important; }
     }
   </style>
 </head>
@@ -236,22 +265,22 @@
   <section class="hero" id="home">
     <div class="wrap hero-grid">
       <div>
-        <p class="kicker">UPTD Rumah Potong Hewan &amp; Pasar Hewan — Krian</p>
-        <h1>Pemotongan hewan yang higienis, resmi, dan dekat dengan warga.</h1>
-        <p class="deck">
+        <p class="kicker" data-rv>UPTD Rumah Potong Hewan &amp; Pasar Hewan — Krian</p>
+        <h1 data-rv>Pemotongan hewan yang higienis, resmi, dan dekat dengan warga.</h1>
+        <p class="deck" data-rv>
           Layanan penyembelihan sapi dan kambing sesuai standar keamanan pangan,
           dikelola langsung oleh Unit Pelaksana Teknis Daerah di bawah Dinas Pangan
           dan Pertanian Kabupaten Sidoarjo.
         </p>
 
-        <dl class="meta">
+        <dl class="meta" data-rv>
           <div class="row"><dt>Alamat</dt><dd>Jl. Ki Hajar Dewantara, Dusun Ngingas, Kel. Krian</dd></div>
           <div class="row"><dt>Jam layanan</dt><dd>Senin – Sabtu, 07.00 – 16.00 WIB</dd></div>
           <div class="row"><dt>Telepon</dt><dd>0812-3456-7890</dd></div>
           <div class="row"><dt>Satuan pengelola</dt><dd>UPTD RPH &amp; Pasar Hewan Krian</dd></div>
         </dl>
 
-        <div class="actions">
+        <div class="actions" data-rv>
           <a class="btn" href="#layanan">Lihat layanan</a>
           <a class="link-arrow" href="#kontak">
             Hubungi kami
@@ -260,7 +289,7 @@
         </div>
       </div>
 
-      <figure class="hero-fig">
+      <figure class="hero-fig" data-rv>
         <img src="galeri/1 (27).jpeg" alt="Pelataran RPH Krian" width="720" height="612">
         <figcaption>Pelataran UPTD RPH &amp; Pasar Hewan Krian, Kecamatan Krian. Dokumentasi unit pelaksana.</figcaption>
       </figure>
@@ -270,23 +299,23 @@
   <!-- ============================= FACTS ============================ -->
   <section class="facts" aria-label="Sorotan singkat">
     <div class="wrap facts-grid">
-      <div class="fact"><strong>4</strong><span>Jenis layanan</span></div>
-      <div class="fact"><strong>69</strong><span>Foto dokumentasi</span></div>
-      <div class="fact"><strong>6</strong><span>Hari operasional / minggu</span></div>
-      <div class="fact"><strong>UPTD</strong><span>Status unit pelaksana</span></div>
+      <div class="fact" data-rv><strong data-to="4">4</strong><span>Jenis layanan</span></div>
+      <div class="fact" data-rv><strong data-to="69">69</strong><span>Foto dokumentasi</span></div>
+      <div class="fact" data-rv><strong data-to="6">6</strong><span>Hari operasional / minggu</span></div>
+      <div class="fact" data-rv><strong>UPTD</strong><span>Status unit pelaksana</span></div>
     </div>
   </section>
 
   <!-- ============================ TENTANG =========================== -->
   <section class="sec" id="tentang">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head" data-rv>
         <span class="sec-num">01 — Tentang</span>
         <h2>Unit pelaksana layanan pemotongan hewan dan pelataran ternak</h2>
       </div>
 
       <div class="about-grid">
-        <div class="prose">
+        <div class="prose" data-rv>
           <p class="lead">
             UPTD RPH dan Pasar Hewan adalah unit pelaksana teknis daerah yang bergerak
             di bidang jasa pelayanan tempat pemotongan hewan serta jasa pelataran jual beli ternak.
@@ -304,7 +333,7 @@
           </p>
         </div>
 
-        <aside>
+        <aside data-rv>
           <figure class="side-fig">
             <img src="galeri/1 (12).jpeg" alt="Kegiatan di RPH Krian" loading="lazy" width="640" height="480">
             <figcaption>Kegiatan operasional harian di area RPH Krian.</figcaption>
@@ -324,12 +353,12 @@
   <!-- ============================ LAYANAN =========================== -->
   <section class="sec" id="layanan">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head" data-rv>
         <span class="sec-num">02 — Layanan</span>
         <h2>Empat layanan utama unit kami</h2>
       </div>
 
-      <a class="svc" href="#kontak">
+      <a class="svc" href="#kontak" data-rv>
         <span class="n">01</span>
         <div>
           <h3>Pemotongan Sapi</h3>
@@ -338,7 +367,7 @@
         <span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </a>
 
-      <a class="svc" href="#kontak">
+      <a class="svc" href="#kontak" data-rv>
         <span class="n">02</span>
         <div>
           <h3>Pemotongan Kambing</h3>
@@ -347,7 +376,7 @@
         <span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </a>
 
-      <a class="svc" href="#kontak">
+      <a class="svc" href="#kontak" data-rv>
         <span class="n">03</span>
         <div>
           <h3>Jual Beli Hewan Ternak</h3>
@@ -356,7 +385,7 @@
         <span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </a>
 
-      <a class="svc" href="#kontak">
+      <a class="svc" href="#kontak" data-rv>
         <span class="n">04</span>
         <div>
           <h3>Pengolahan &amp; Distribusi</h3>
@@ -370,11 +399,11 @@
   <!-- ============================== CTA ============================= -->
   <section class="cta" id="kontak">
     <div class="wrap">
-      <div>
+      <div data-rv>
         <h2>Butuh layanan pemotongan hewan?</h2>
         <p>Hubungi petugas RPH Krian untuk jadwal dan informasi layanan — Senin s/d Sabtu, 07.00 – 16.00 WIB.</p>
       </div>
-      <div class="actions">
+      <div class="actions" data-rv>
         <a class="btn btn-light" href="tel:081234567890">0812-3456-7890</a>
         <a class="link-arrow" href="mailto:rphkrian@sidoarjokab.go.id">
           rphkrian@sidoarjokab.go.id
@@ -424,5 +453,75 @@
     </div>
   </footer>
 
+  <script>
+    /* =================================================================
+       Interaksi prototipe editorial — sederhana, mandiri, tanpa pustaka
+       ================================================================= */
+    (function () {
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var items = Array.prototype.slice.call(document.querySelectorAll("[data-rv]"));
+      var $ = function (s) { return document.querySelector(s); };
+
+      /* jeda bertahap untuk elemen yang bersaudara dalam satu wadah */
+      items.forEach(function (el) {
+        var p = el.parentElement;
+        if (!p) return;
+        var sibs = Array.prototype.slice.call(p.children).filter(function (c) {
+          return c.hasAttribute("data-rv");
+        });
+        if (sibs.length > 1) {
+          el.style.transitionDelay = Math.min(sibs.indexOf(el) * 90, 480) + "ms";
+        }
+      });
+
+      function countUp(el) {
+        var to = parseInt(el.getAttribute("data-to"), 10);
+        if (isNaN(to)) return;
+        var start = performance.now(), dur = 1200;
+        (function step(now) {
+          var p = Math.min(1, (now - start) / dur);
+          el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3)));
+          if (p < 1) requestAnimationFrame(step);
+        })(start);
+      }
+
+      if (reduce || !("IntersectionObserver" in window)) {
+        items.forEach(function (el) { el.classList.add("on"); });
+      } else {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (!e.isIntersecting) return;
+            e.target.classList.add("on");
+            var num = e.target.querySelector("[data-to]");
+            if (num) countUp(num);
+            io.unobserve(e.target);
+          });
+        }, { threshold: 0.15, rootMargin: "0px 0px -6% 0px" });
+        items.forEach(function (el) { io.observe(el); });
+      }
+
+      /* bayangan tipis pada header saat halaman digulir */
+      var head = $(".site-head");
+      var links = Array.prototype.slice.call(document.querySelectorAll('.nav-links a[href^="#"]'));
+      var secs = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+      var raf = 0;
+
+      function tick() {
+        if (head) head.classList.toggle("stuck", window.scrollY > 8);
+        var y = window.scrollY + 140, cur = -1;
+        secs.forEach(function (s, i) { if (s && s.offsetTop <= y) cur = i; });
+        links.forEach(function (a, i) {
+          if (i === cur) { a.classList.add("on"); a.setAttribute("aria-current", "true"); }
+          else { a.classList.remove("on"); a.removeAttribute("aria-current"); }
+        });
+      }
+
+      window.addEventListener("scroll", function () {
+        if (raf) return;
+        raf = requestAnimationFrame(function () { raf = 0; tick(); });
+      }, { passive: true });
+      tick();
+    })();
+  </script>
 </body>
 </html>
